@@ -3,8 +3,11 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import listEndpoints from 'express-list-endpoints';
 
+
 // import routes
 import usersRouter from './routes/usersRoute.js';
+// import error handlers
+import { badRequestHandler, unauthorizedHandler, notFoundHandler, internalServerErrorHandler } from "./errorHandlers.js";
 
 
 import { connectDB } from './config/db.js';
@@ -28,6 +31,14 @@ app.use(express.urlencoded({ extended: true }))
 
 // Routes
 app.use('/api/v1/users', usersRouter);
+
+
+// Error handlers
+app.use(badRequestHandler)
+app.use(unauthorizedHandler)
+app.use(notFoundHandler)
+app.use(internalServerErrorHandler)
+
 
 
 app.listen(PORT, () => {
