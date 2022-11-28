@@ -14,6 +14,13 @@ dotenv.config({ path: './config/config.env' });
 connectDB();
 
 
+// Middlewares
+app.use(cors())
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+
+
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(
