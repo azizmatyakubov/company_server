@@ -27,7 +27,6 @@ export const getUserById = async (req, res, next) => {
     }
 }
 
-
 export const updateUser = async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -57,5 +56,26 @@ export const deleteUser = async (req, res, next) => {
     }
 }
 
+export const countUsers = async (req, res, next) => {
+    try {
+        const users = await Users.countDocuments();
+        res.status(200).send({ users });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export const changeDepartment = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { departmentId } = req.body;
+        if (!mongoose.Types.ObjectId.isValid(id)) return next(createHttpError(400, `The id ${id} is not valid`));
+        if (!mongoose.Types.ObjectId.isValid(departmentId)) return next(createHttpError(400, `The id ${departmentId} is not valid`));
+
+        const user = await Users.findByIdAndUpdate(id, { department : departmentId }, { new: true });
+    } catch (error) {
+        next(error);
+} }
+    
 
 

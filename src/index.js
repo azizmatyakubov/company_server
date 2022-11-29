@@ -7,6 +7,7 @@ import listEndpoints from 'express-list-endpoints';
 // import routes
 import authRouter from './routes/authRoute.js';
 import usersRouter from './routes/usersRoute.js';
+import departmentsRouter from './routes/departmentsRoute.js';
 // import error handlers
 import { badRequestHandler, unauthorizedHandler, notFoundHandler, internalServerErrorHandler } from "./errorHandlers.js";
 
@@ -33,6 +34,7 @@ app.use(express.urlencoded({ extended: true }))
 // Routes
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/departments', departmentsRouter);
 
 
 
