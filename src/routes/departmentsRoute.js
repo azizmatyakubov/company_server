@@ -10,12 +10,12 @@ const departmentsRouter = express.Router();
 
 
 
-departmentsRouter.post('/', createNewDepartment)
-departmentsRouter.get('/', getAllDepartments )
-departmentsRouter.get('/search', getAllDepartmentByName)
-departmentsRouter.get('/:id', authenticateToken, role(['admin']), getDepartmentById )
-departmentsRouter.put('/:id', updateDepartment )
-departmentsRouter.delete('/:id', deleteDepartment )
+departmentsRouter.post('/', authenticateToken, role(['admin']), createNewDepartment)
+departmentsRouter.get('/', authenticateToken, role(['admin', 'user']), getAllDepartments )
+departmentsRouter.get('/search', authenticateToken, role(['admin', 'user']), getAllDepartmentByName)
+departmentsRouter.get('/:id', authenticateToken, role(['admin', 'user']), getDepartmentById )
+departmentsRouter.put('/:id', authenticateToken, role(['admin']), updateDepartment )
+departmentsRouter.delete('/:id', authenticateToken, role(['admin']), deleteDepartment )
 
 
 export default departmentsRouter;

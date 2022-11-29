@@ -92,7 +92,9 @@ export const changeDepartment = async (req, res, next) => {
         await user.save();
         await department.save();
 
-        res.status(200).send({ message: `user deparment id ${user.department}` });
+        // send message
+        res.status(200).send({ message: `Employee ${user.name} has been moved to ${department.name} department` });
+        
 
 
     } catch (error) {
