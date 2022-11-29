@@ -87,9 +87,12 @@ export const changeDepartment = async (req, res, next) => {
 
         // add user to new department
         department.employees.push(userId);
+        console.log(department._id)
+        user.department = department._id;
+        await user.save();
         await department.save();
 
-        res.status(200).send({ message: `Employee ${user.name} added to ${department.name} department` });
+        res.status(200).send({ message: `user deparment id ${user.department}` });
 
 
     } catch (error) {

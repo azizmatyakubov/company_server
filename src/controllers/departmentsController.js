@@ -55,7 +55,23 @@ export const getAllDepartmentByName = async (req, res, next) => {
     }
 }
 
-export const updateDepartment = async (req, res, next) => {}
+export const updateDepartment = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const { name, description } = req.body;
+        
+        if (!mongoose.Types.ObjectId.isValid(id)) return next(createHttpError(400, `The id ${id} is not valid`));
+
+        const department = await Departments.findByIdAndUpdate(id, { name, description }, { new: true });
+        if(!department) return next(createHttpError(404, `Department with id ${id} not found`));
+
+     
+        res.send(department);
+    } catch (error) {
+        
+    }
+
+}
 
 export const deleteDepartment = async (req, res, next) => {}
 

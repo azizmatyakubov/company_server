@@ -13,10 +13,6 @@ const departmentsRouter = express.Router();
 departmentsRouter.post('/', createNewDepartment)
 departmentsRouter.get('/', getAllDepartments )
 departmentsRouter.get('/search', getAllDepartmentByName)
-
-
-departmentsRouter.post('employees')
-
 departmentsRouter.get('/:id', authenticateToken, role(['admin']), getDepartmentById )
 departmentsRouter.put('/:id', updateDepartment )
 departmentsRouter.delete('/:id', deleteDepartment )
