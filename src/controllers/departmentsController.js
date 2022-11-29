@@ -5,9 +5,14 @@ import Departments from "../models/DepartmentsModel.js";
 
 export const createNewDepartment = async (req, res, next) => {
     try {
-        const newDepartment = new Departments(req.body);
+        const { name, description } = req.body;
+
+        const department = await Departments.findOne({ name });
+        if(department) return next(createHttpError(409, 'Department already exists'));
+
+        const newDepartment = new Departments({ name, description });
         const { _id } = await newDepartment.save();
-        res.status(201).send({ id: _id });
+        res.status(201).send('Department created successfully');
     } catch (error) {
         next(error);
     }

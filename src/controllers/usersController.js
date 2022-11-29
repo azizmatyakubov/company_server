@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Users from '../models/UsersModel.js';
+import Departments from '../models/DepartmentsModel.js';
 import createHttpError from 'http-errors';
 
 
@@ -65,17 +66,37 @@ export const countUsers = async (req, res, next) => {
     }
 }
 
+
 export const changeDepartment = async (req, res, next) => {
     try {
-        const { id } = req.params;
-        const { departmentId } = req.body;
-        if (!mongoose.Types.ObjectId.isValid(id)) return next(createHttpError(400, `The id ${id} is not valid`));
-        if (!mongoose.Types.ObjectId.isValid(departmentId)) return next(createHttpError(400, `The id ${departmentId} is not valid`));
+        const { departmentName, userId } = req.query;
+        if (!mongoose.Types.ObjectId.isValid(userId)) return next(createHttpError(400, `The id ${userId} is not valid`));
 
-        const user = await Users.findByIdAndUpdate(id, { department : departmentId }, { new: true });
+        const department = await Departments.findOne({ name: departmentName });
+        if(!department) return next(createHttpError(404, `${departmentName} department not found`));
+
+        const user = await Users.findById(userId);
+        if(!user) return next(createHttpError(404, `Employee with id ${userId} not found`));
+
+        // remove user from previous department
+        const previousDepartment = await Departments.findOne({ employees: userId });
+        if(previousDepartment) {
+            previousDepartment.employees = previousDepartment.employees.filter(employee => employee != userId);
+            await previousDepartment.save();
+        }
+
+        // add user to new department
+        department.employees.push(userId);
+        await department.save();
+
+        res.status(200).send({ message: `Employee ${user.name} added to ${department.name} department` });
+
+
     } catch (error) {
         next(error);
-} }
+    }
+}
+
     
 
 

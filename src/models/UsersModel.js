@@ -31,7 +31,12 @@ const usersSchema = new Schema({
         required: true,
         enum: ["developer", "designer", "project manager"],
         default: "developer",
-    }
+    },
+    department: {
+        type: Schema.Types.ObjectId,
+        ref: "Departments",
+        default: null,
+    },
 },
     {
         timestamps: true,
