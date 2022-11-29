@@ -10,8 +10,9 @@ const authValidator = {
     register: {
         body: Joi.object({
             name: Joi.string().required(),
+            surname: Joi.string().optional(),
             email: Joi.string().email().required(),
-            password: Joi.string().required(),
+            password: Joi.string().optional(),
         }),
     },
 };

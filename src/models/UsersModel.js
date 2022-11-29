@@ -6,6 +6,10 @@ const usersSchema = new Schema({
         type: String,
         required: true,
     },
+    surname: {
+        type: String,
+        default: "",
+    },
     email: {
         type: String,
         required: true,
@@ -14,6 +18,7 @@ const usersSchema = new Schema({
     password: {
         type: String,
         required: true,
+        default: "password",
     },
     role: {
         type: String,
@@ -21,6 +26,12 @@ const usersSchema = new Schema({
         enum: ["user", "admin", "superadmin"],
         default: "user",
     },
+    position: {
+        type: String,
+        required: true,
+        enum: ["developer", "designer", "project manager"],
+        default: "developer",
+    }
 },
     {
         timestamps: true,

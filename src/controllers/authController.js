@@ -36,7 +36,7 @@ export const login = async (req, res, next) => {
 
 export const register = async (req, res, next) => {
     try {
-        const { email, password, name } = req.body;
+        const { email, password, name, surname } = req.body;
         // Validate request body
         const { error } = authValidator.register.body.validate(req.body);
         if(error) return next(createHttpError(400, error.details[0].message));
@@ -45,11 +45,14 @@ export const register = async (req, res, next) => {
         const user = await Users.findOne({ email });
         if(user) return next(createHttpError(400, 'Email already exists'));
     
+        // Check if password is exist. If not, generate random password
+        if(!password) req.body.password = 'password';
+        
         // Hash password
-        const hashedPassword = await bcrypt.hash(password, 12);
+        const hashedPassword = await bcrypt.hash(req.body.password, 12);
     
         // Create user
-        const newUser = await Users.create({ email, password: hashedPassword, name });
+        const newUser = await Users.create({ email, password: hashedPassword, name, surname });
     
         // Send response
         res.status(200).json({id: newUser._id});
