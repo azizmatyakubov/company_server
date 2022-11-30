@@ -1,4 +1,4 @@
-import jwt from '../modules/jwt.js';
+import jwt from 'jsonwebtoken';
 
 export default (req, res, next) => {
     const authHeader = req.headers['authorization']
@@ -6,12 +6,9 @@ export default (req, res, next) => {
   
     if (token == null) return res.status(401).send('Unauthorized')
   
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
-        next();
-    } catch (error) {
-        console.log(error);
-        return res.status(401).send('Unauthorized');
-    }
+    jwt.verify(token, ACCESS_TOKEN_SECRET, (err, decoded) => {
+        if (err) return res.status(403).send('Forbidden')
+            req.user = decoded
+            next()
+    })
 }
