@@ -17,7 +17,7 @@ export const login = async (req, res, next) => {
         const foundUser = await Users.findOne({ email });
         if(!foundUser) return next(createHttpError(401, 'Invalid email or password'));
 
-        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        const isPasswordCorrect = await bcrypt.compare(password, foundUser.password);
         if(!isPasswordCorrect) return next(createHttpError(401, 'Invalid email or password'));
 
         const accessToken = jwt.sign(
@@ -38,6 +38,7 @@ export const login = async (req, res, next) => {
         res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
         res.status(200).json({ accessToken });
     } catch (error) {
+        console.log(error)
         next(error);
     }
 
