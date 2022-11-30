@@ -98,12 +98,12 @@ export const logout = async (req, res, next) => {
 
         const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
         const foundUser = await Users.findById(decoded.id);
-        if(!foundUser) return res.clearCookie('refreshToken', { httpOnly: true }).status(204).send();
+        if(!foundUser) return res.clearCookie('refreshToken', { httpOnly: true, sameSite: 'None', }).status(204).send();
 
         foundUser.refreshToken = null;
         await foundUser.save();
 
-        res.clearCookie('refreshToken', { httpOnly: true }).status(204).send();
+        res.clearCookie('refreshToken', { httpOnly: true, sameSite: 'None', }).status(204).send();
  
     } catch (error) {
         next(error);
