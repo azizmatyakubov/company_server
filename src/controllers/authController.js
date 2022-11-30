@@ -20,7 +20,20 @@ export const login = async (req, res, next) => {
         const isPasswordCorrect = await bcrypt.compare(password, user.password);
         if(!isPasswordCorrect) return next(createHttpError(401, 'Invalid email or password'));
 
-        const accessToken = jwt.sign({ id: foundUser._id, role: foundUser.role }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+        const accessToken = jwt.sign(
+            { id: foundUser._id, role: foundUser.role }, 
+            process.env.ACCESS_TOKEN_SECRET, 
+            { expiresIn: '1h' }
+        );
+
+        const refreshToken = jwt.sign(
+            { id: foundUser._id, role: foundUser.role }, 
+            process.env.REFRESH_TOKEN_SECRET, 
+            { expiresIn: '1d' }
+        );
+
+        // Save refresh token to database
+        foundUser.refreshToken = refreshToken;
 
         res.status(200).json({ token });
     } catch (error) {

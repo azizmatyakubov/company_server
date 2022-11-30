@@ -37,6 +37,10 @@ const usersSchema = new Schema({
         ref: "Departments",
         default: null,
     },
+    refreshToken: {
+        type: String,
+        default: "",
+    },
 },
     {
         timestamps: true,
