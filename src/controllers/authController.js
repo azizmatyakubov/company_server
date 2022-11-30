@@ -32,10 +32,11 @@ export const login = async (req, res, next) => {
             { expiresIn: '1d' }
         );
 
-        // Save refresh token to database
         foundUser.refreshToken = refreshToken;
-
-        res.status(200).json({ token });
+        await foundUser.save();
+        
+        res.cookie('refreshToken', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+        res.status(200).json({ accessToken });
     } catch (error) {
         next(error);
     }
