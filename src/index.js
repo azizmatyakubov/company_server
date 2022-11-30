@@ -13,6 +13,11 @@ import { badRequestHandler, unauthorizedHandler, notFoundHandler, internalServer
 
 
 import { connectDB } from './config/db.js';
+import /* A function that returns an object. */
+corsOptions from './config/corsOptions.js';
+
+
+
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -25,7 +30,7 @@ connectDB();
 
 
 // Middlewares
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser()) 
