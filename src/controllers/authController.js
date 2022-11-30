@@ -69,3 +69,44 @@ export const register = async (req, res, next) => {
 }
 
 
+export const refreshToken = async (req, res, next) => {
+    try {
+        const refreshToken = req.cookies.refreshToken;
+        if(!refreshToken) return next(createHttpError(401, 'Unauthorized'));
+        
+        const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+        const foundUser = await Users.findById(decoded.id);
+        if(!foundUser) return next(createHttpError(401, 'Unauthorized'));
+        
+        const accessToken = jwt.sign(
+            { id: foundUser._id, role: foundUser.role }, 
+            process.env.ACCESS_TOKEN_SECRET, 
+            { expiresIn: '1h' }
+        );
+        
+        res.status(200).json({ accessToken });
+    } catch (error) {
+        console.log(error)
+        next(error);
+    }
+}
+
+export const logout = async (req, res, next) => {
+    try {
+        const refreshToken = req.cookies.refreshToken;
+        if(!refreshToken) return res.status(204).send();
+
+        const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+        const foundUser = await Users.findById(decoded.id);
+        if(!foundUser) return res.clearCookie('refreshToken', { httpOnly: true }).status(204).send();
+
+        foundUser.refreshToken = null;
+        await foundUser.save();
+
+        res.clearCookie('refreshToken', { httpOnly: true }).status(204).send();
+ 
+    } catch (error) {
+        next(error);
+    }
+}
+

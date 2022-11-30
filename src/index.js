@@ -2,7 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import listEndpoints from 'express-list-endpoints';
-
+import cookieParser from 'cookie-parser';
 
 // import routes
 import authRouter from './routes/authRoute.js';
@@ -13,7 +13,6 @@ import { badRequestHandler, unauthorizedHandler, notFoundHandler, internalServer
 
 
 import { connectDB } from './config/db.js';
-
 
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -29,14 +28,13 @@ connectDB();
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use(cookieParser()) 
 
 
 // Routes
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/departments', departmentsRouter);
-
-
 
 
 // Error handlers
