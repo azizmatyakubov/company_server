@@ -14,13 +14,13 @@ export const login = async (req, res, next) => {
         const { error } = authValidator.login.body.validate(req.body);
         if(error) return next(createHttpError(400, error.details[0].message));
 
-        const user = await Users.findOne({ email });
-        if(!user) return next(createHttpError(401, 'Invalid email or password'));
+        const foundUser = await Users.findOne({ email });
+        if(!foundUser) return next(createHttpError(401, 'Invalid email or password'));
 
         const isPasswordCorrect = await bcrypt.compare(password, user.password);
         if(!isPasswordCorrect) return next(createHttpError(401, 'Invalid email or password'));
 
-        const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const accessToken = jwt.sign({ id: foundUser._id, role: foundUser.role }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
 
         res.status(200).json({ token });
     } catch (error) {
@@ -37,8 +37,8 @@ export const register = async (req, res, next) => {
         const { error } = authValidator.register.body.validate(req.body);
         if(error) return next(createHttpError(400, error.details[0].message));
     
-        const user = await Users.findOne({ email });
-        if(user) return next(createHttpError(400, 'Email already exists'));
+        const foundUser = await Users.findOne({ email });
+        if(foundUser) return next(createHttpError(400, 'Email already exists'));
     
         // If user doesn't have password, we will use 'password' as default
         if(!password) req.body.password = 'password';
