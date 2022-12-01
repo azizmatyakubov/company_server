@@ -13,6 +13,9 @@ const authValidator = {
             surname: Joi.string().optional(),
             email: Joi.string().email().required(),
             password: Joi.string().optional(),
+            role: Joi.string().valid('user', 'admin', 'superadmin').optional(),
+            position: Joi.string().optional(),
+            department: Joi.string().optional(),
         }),
     },
 };
