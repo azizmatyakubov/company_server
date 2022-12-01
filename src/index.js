@@ -13,8 +13,7 @@ import { badRequestHandler, unauthorizedHandler, notFoundHandler, internalServer
 
 
 import { connectDB } from './config/db.js';
-import /* A function that returns an object. */
-corsOptions from './config/corsOptions.js';
+// corsOptions from './config/corsOptions.js';
 
 
 
@@ -30,7 +29,7 @@ connectDB();
 
 
 // Middlewares
-app.use(cors(corsOptions))
+app.use(cors());
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser()) 

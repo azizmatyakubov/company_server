@@ -8,7 +8,7 @@ const usersSchema = new Schema({
     },
     surname: {
         type: String,
-        default: "",
+        required: true,
     },
     email: {
         type: String,
@@ -19,6 +19,10 @@ const usersSchema = new Schema({
         type: String,
         required: true,
         default: "password",
+    },
+    img: {
+        type: String,
+        default: 'https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg'
     },
     role: {
         type: String,

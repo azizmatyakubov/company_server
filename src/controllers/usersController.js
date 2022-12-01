@@ -7,7 +7,7 @@ import createHttpError from 'http-errors';
 
 export const getAllUsers = async (req, res, next) => {
     try {
-        const users = await Users.find();
+        const users = await Users.find().populate('department');
         res.send(users);
     } catch (error) {
         res.status(500).json({ error: error.message });
