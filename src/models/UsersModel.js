@@ -52,10 +52,12 @@ const usersSchema = new Schema({
 
 // hide password
 usersSchema.methods.toJSON = function () {
-    const user = this;
-    const userObject = user.toObject();
+    const userObject = this.toObject();
+    delete userObject.__v;
     delete userObject.password;
     delete userObject.refreshToken;
+    delete userObject.createdAt;
+    delete userObject.updatedAt;
     return userObject;
 };
 

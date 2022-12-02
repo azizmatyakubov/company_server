@@ -1,0 +1,90 @@
+swagger: "2.0"
+info: 
+  title: Api yessss
+  description: Api yessss
+  version: "1.0.0"
+  contact:
+    name: "Aziz Matyakubov"
+    email: "a.matyaqubov1471@gmail.com"
+    url: "linkedin.com/in/aziz-matyakubov-1a1a6b1b3"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/licenses/MIT"
+  servers:
+    - url: "http://localhost:3000"
+      description: "Local server"
+    - url: "https://api.yessss.com"
+      description: "Production server"
+host: "localhost:3000"
+basePath: /api/v1/
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+ 
+  #return array of all users
+  /users:
+    get:
+      summary: Get all users
+      description: Get all users
+      tags:
+        - Users
+      responses:
+        200: 
+          description: Success
+          schema:
+            type: array
+            example: 
+              - id: 63822222b835d2929e4b8790
+                name: "user name"
+                surname: "user surname"
+                email: "thisismy@mail.com"
+                img: "https://www.google.com/img.png"
+                role: "user"
+                position: "user position"
+                department: "user department"
+                
+
+              - id: 2
+                name: "user name"
+                email: "prettier@swagger.com"
+
+
+
+
+        400:
+          description: Bad request
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not found
+        500:
+          description: Internal server error
+    
+  #return user by id
+  /users/{id}:
+    get:
+      summary: Get user by id
+      description: Get user by id
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          description: User id
+          required: true
+          type: string
+      responses:
+        200: 
+          description: Success
+          schema:
+            type: object
+            example: Fake data
+
+

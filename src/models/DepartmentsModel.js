@@ -18,4 +18,5 @@ const departmentSchema = new Schema({
 }, { timestamps: true });
 
 
+
 export default model('Departments', departmentSchema);

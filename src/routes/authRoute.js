@@ -7,6 +7,7 @@ const authRouter = express.Router();
 
 
 // authRouter.post('/google', passport.authenticate('google', { scope: ['profile', 'email'] })); 
+    
 authRouter.get('/me', AuthMiddleware, getMe)
 authRouter.post('/login', login);
 authRouter.post('/register', register);
