@@ -38,20 +38,47 @@ paths:
           description: Success
           schema:
             type: array
-            example: 
-              - id: 63822222b835d2929e4b8790
-                name: "user name"
-                surname: "user surname"
-                email: "thisismy@mail.com"
-                img: "https://www.google.com/img.png"
-                role: "user"
-                position: "user position"
-                department: "user department"
-                
+            items:
+              type: object
+              properties:
+                id: 
+                  type: integer
+                name:
+                  type: string
+                surname:
+                  type: string
+                email:
+                  type: string
+                img: 
+                  type: string
+                role:
+                  type: string
+                position:
+                  type: string
+                department:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    employees: 
+                    # Employess is array and includes users id
+                      type: array
+                      items:
+                        type: string
+                      
 
-              - id: 2
-                name: "user name"
-                email: "prettier@swagger.com"
+
+                      
+                    
+                        
+
+
+
+
 
 
 
