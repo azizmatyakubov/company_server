@@ -7,6 +7,7 @@ import authValidator from '../validators/authValidator.js';
 
 
 
+
 export const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
@@ -110,3 +111,13 @@ export const logout = async (req, res, next) => {
     }
 }
 
+export const getMe = async (req, res, next) => {
+    try {
+        const foundUser = await Users.findById(req.user.id);
+        if(!foundUser) return next(createHttpError(404, 'User not found'));
+        
+        res.status(200).json(foundUser);
+    } catch (error) {
+        next(error);
+    }
+}

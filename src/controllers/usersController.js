@@ -8,9 +8,10 @@ import createHttpError from 'http-errors';
 export const getAllUsers = async (req, res, next) => {
     try {
         const users = await Users.find().populate('department');
-        res.send(users);
+        res.status(200).send(users);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.log(error);
+        next(createHttpError(500, 'Something went wrong'));
     }
 }
 
@@ -19,10 +20,10 @@ export const getUserById = async (req, res, next) => {
         const { id } = req.params;
         if (!mongoose.Types.ObjectId.isValid(id)) return next(createHttpError(400, `The id ${id} is not valid`));
     
-        const user = await Users.findById(id);
+        const user = await Users.findById(id).populate('department');
         if(!user) return next(createHttpError(404, `User with id ${id} not found`));
 
-        res.send(user);
+        res.status(200).send(user);
     } catch (error) {
         next(error);
     }
@@ -37,8 +38,9 @@ export const updateUser = async (req, res, next) => {
         if(!user) return next(createHttpError(404, `User with id ${id} not found`));
 
         // send updated user
-        res.send(user);
+        res.status(200).json(user);
     } catch (error) {
+        console.log(error);
         next(error);
     }
 }
@@ -102,6 +104,20 @@ export const changeDepartment = async (req, res, next) => {
     }
 }
 
+export const uploadAvatar = async (req, res, next) => {
+    try {
+        const foundUser = await Users.findById(req.user.id);
+        if(!foundUser) return next(createHttpError(404, `User with id ${req.user.id} not found`));
+
+        foundUser.img = req.file.path;
+        await foundUser.save();
+    
+        res.status(200).send({ message: 'Image uploaded successfully' });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+}
     
 
 

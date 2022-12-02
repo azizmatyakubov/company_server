@@ -33,7 +33,6 @@ const usersSchema = new Schema({
     position: {
         type: String,
         required: true,
-        enum: ["developer", "designer", "project manager"],
         default: "developer",
     },
     department: {
@@ -50,5 +49,14 @@ const usersSchema = new Schema({
         timestamps: true,
     }
 );
+
+// hide password
+usersSchema.methods.toJSON = function () {
+    const user = this;
+    const userObject = user.toObject();
+    delete userObject.password;
+    delete userObject.refreshToken;
+    return userObject;
+};
 
 export default model("Users", usersSchema);
