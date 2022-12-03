@@ -11,7 +11,7 @@ const usersRouter = express.Router();
 usersRouter.get('/', AuthMiddleware, getAllUsers )
 usersRouter.put('/changeDepartment',AuthMiddleware, changeDepartment)
 usersRouter.get('/countUsers', AuthMiddleware, countUsers )
-usersRouter.get('/downloadCsv', AuthMiddleware, role(['admin']), downloadCsv)
+usersRouter.get('/csv', AuthMiddleware, role(['admin']), downloadCsv)
 usersRouter.get('/:id', AuthMiddleware, getUserById )
 usersRouter.put('/:id', AuthMiddleware, role(['admin']), updateUser )
 usersRouter.delete('/:id', AuthMiddleware, role(['admin']), deleteUser )
