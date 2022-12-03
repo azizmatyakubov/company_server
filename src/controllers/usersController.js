@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import Users from '../models/UsersModel.js';
 import Departments from '../models/DepartmentsModel.js';
 import createHttpError from 'http-errors';
+import pkg from 'json2csv';
+const { Parser } = pkg;
 
 
 
@@ -68,7 +70,6 @@ export const countUsers = async (req, res, next) => {
     }
 }
 
-
 export const changeDepartment = async (req, res, next) => {
     try {
         const { departmentName, userId } = req.query;
@@ -113,6 +114,22 @@ export const uploadAvatar = async (req, res, next) => {
         await foundUser.save();
     
         res.status(200).send({ message: 'Image uploaded successfully' });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+}
+
+export const downloadCsv = async (req, res, next) => {
+    try {
+        const users = await Users.find().populate('department');
+        const fields = ['name', 'surname', 'email', 'role', 'department.name', 'position'];
+        const opts = { fields };
+        const parser = new Parser(opts);
+        const csv = parser.parse(users);
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-Disposition', 'attachment; filename="users.csv"');
+        res.status(200).send(csv);
     } catch (error) {
         console.log(error);
         next(error);
