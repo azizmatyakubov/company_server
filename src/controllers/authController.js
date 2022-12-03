@@ -48,7 +48,7 @@ export const login = async (req, res, next) => {
 
 export const register = async (req, res, next) => {
     try {
-        const { email, password, name, surname } = req.body;
+        const { email, password, name, surname, position } = req.body;
    
         const { error } = authValidator.register.body.validate(req.body);
         if(error) return next(createHttpError(400, error.details[0].message));
@@ -61,7 +61,7 @@ export const register = async (req, res, next) => {
         
         const hashedPassword = await bcrypt.hash(req.body.password, 12);
   
-        const newUser = await Users.create({ email, password: hashedPassword, name, surname });
+        const newUser = await Users.create({ email, password: hashedPassword, name, surname, department: '6385c67e27f87f868369d38e', position, });
 
         res.status(200).json({id: newUser._id});
     } catch (error) {

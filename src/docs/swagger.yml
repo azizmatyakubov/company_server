@@ -68,21 +68,7 @@ paths:
                     # Employess is array and includes users id
                       type: array
                       items:
-                        type: string
-                      
-
-
-                      
-                    
-                        
-
-
-
-
-
-
-
-
+                        type: string      
         400:
           description: Bad request
         401:
@@ -107,11 +93,47 @@ paths:
           description: User id
           required: true
           type: string
+
+        - name: Authorization
+          in: header
+          description: User token
+          required: true
+          type: string
       responses:
         200: 
           description: Success
           schema:
             type: object
-            example: Fake data
+            properties:
+              id: 
+                type: integer
+              name:
+                type: string
+              surname:
+                type: string
+              email:
+                type: string
+              img: 
+                type: string
+              role:
+                type: string
+              position:
+                type: string
+              department:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  employees: 
+                  # Employess is array and includes users id
+                    type: array
+                    items:
+                      type: string
 
+  #return updated user
+  /users/{id}:
 

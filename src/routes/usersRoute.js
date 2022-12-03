@@ -8,12 +8,12 @@ const usersRouter = express.Router();
 
 
 
-usersRouter.get('/', getAllUsers )
+usersRouter.get('/', AuthMiddleware, getAllUsers )
 usersRouter.put('/changeDepartment',AuthMiddleware, changeDepartment)
-usersRouter.get('/countUsers', countUsers )
+usersRouter.get('/countUsers', AuthMiddleware, countUsers )
 usersRouter.get('/:id', AuthMiddleware, getUserById )
-usersRouter.put('/:id', role(['admin']), updateUser )
-usersRouter.delete('/:id', role(['admin']), deleteUser )
+usersRouter.put('/:id', AuthMiddleware, role(['admin']), updateUser )
+usersRouter.delete('/:id', AuthMiddleware, role(['admin']), deleteUser )
 usersRouter.post('/uploadAvatar', AuthMiddleware, cloudinaryUploader, uploadAvatar )
 
 
