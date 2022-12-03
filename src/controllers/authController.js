@@ -5,9 +5,6 @@ import Users from '../models/UsersModel.js';
 import authValidator from '../validators/authValidator.js';
 
 
-
-
-
 export const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
@@ -45,7 +42,6 @@ export const login = async (req, res, next) => {
 
 }
 
-
 export const register = async (req, res, next) => {
     try {
         const { email, password, name, surname, position } = req.body;
@@ -68,7 +64,6 @@ export const register = async (req, res, next) => {
         next(error);
     }
 }
-
 
 export const refreshToken = async (req, res, next) => {
     try {
