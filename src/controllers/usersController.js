@@ -6,7 +6,6 @@ import pkg from 'json2csv';
 const { Parser } = pkg;
 
 
-
 export const getAllUsers = async (req, res, next) => {
     try {
         const users = await Users.find().populate('department');

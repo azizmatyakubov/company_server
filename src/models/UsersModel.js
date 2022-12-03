@@ -50,7 +50,7 @@ const usersSchema = new Schema({
     }
 );
 
-// hide password
+// hide password, refreshToken and __v
 usersSchema.methods.toJSON = function () {
     const userObject = this.toObject();
     delete userObject.__v;

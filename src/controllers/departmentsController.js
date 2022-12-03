@@ -41,7 +41,6 @@ export const getDepartmentById = async (req, res, next) => {
     }
 }
 
-
 export const getAllDepartmentByName = async (req, res, next) => {
     try {
         const { name } = req.query;
@@ -73,6 +72,8 @@ export const updateDepartment = async (req, res, next) => {
 
 }
 
-export const deleteDepartment = async (req, res, next) => {}
+export const deleteDepartment = async (req, res, next) => {
+    
+}
 
 export const countDepartments = async (req, res, next) => {}
