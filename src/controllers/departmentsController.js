@@ -73,7 +73,16 @@ export const updateDepartment = async (req, res, next) => {
 }
 
 export const deleteDepartment = async (req, res, next) => {
-    
+    try {
+        const { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) return next(createHttpError(400, `The id ${id} is not valid`));
+
+        const department = await Departments.findByIdAndDelete(id);
+        if(!department) return next(createHttpError(404, `Department with id ${id} not found`));
+
+        res.status(204).send();
+    } catch (error) {
+        next(error);
+    }
 }
 
-export const countDepartments = async (req, res, next) => {}
