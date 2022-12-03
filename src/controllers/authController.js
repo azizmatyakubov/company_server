@@ -36,7 +36,7 @@ export const login = async (req, res, next) => {
         foundUser.refreshToken = refreshToken;
         await foundUser.save();
         
-        res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'None', Secure, maxAge: 24 * 60 * 60 * 1000 });
+        res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
         res.status(200).json({ accessToken });
     } catch (error) {
         console.log(error)
