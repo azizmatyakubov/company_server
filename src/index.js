@@ -43,7 +43,7 @@ app.use(cookieParser())
 
 
 // Routes
-app.use('/api/v1/api-docs', swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerJsDocs));
+app.use('/api/v1/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerJsDocs));
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/departments', departmentsRouter);
