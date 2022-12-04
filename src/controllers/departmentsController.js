@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import createHttpError from "http-errors";
 import Departments from "../models/DepartmentsModel.js";
+import departmentsValidator from "../validators/departmentsValidator.js";
 
 
 export const createNewDepartment = async (req, res, next) => {
@@ -55,17 +56,16 @@ export const getAllDepartmentByName = async (req, res, next) => {
 }
 
 export const updateDepartment = async (req, res, next) => {
+    const { error } = departmentsValidator.update.body.validate(req.body);
+    if(error) return next(createHttpError(400, error.details[0].message));
     try {
         const { id } = req.params;
-        const { name, description } = req.body;
-        
         if (!mongoose.Types.ObjectId.isValid(id)) return next(createHttpError(400, `The id ${id} is not valid`));
 
-        const department = await Departments.findByIdAndUpdate(id, { name, description }, { new: true });
-        if(!department) return next(createHttpError(404, `Department with id ${id} not found`));
+        const foundDepartment = await Departments.findByIdAndUpdate(id, req.body, { new: true });
+        if(!foundDepartment) return next(createHttpError(404, `Department with id ${id} not found`));
 
-     
-        res.send(department);
+        res.status(200).send(foundDepartment);
     } catch (error) {
         
     }

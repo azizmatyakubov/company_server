@@ -623,7 +623,7 @@ paths:
           description: Internal server error
     put:
       summary: Update department by id
-      description: Update department by id
+      description: This method is used to update department by id. You need to send access token in header, department id in url and department name and/or department description in body. Role of user must be admin.
       tags:
         - Departments
       parameters:
@@ -633,31 +633,30 @@ paths:
           required: true
           type: string
 
-        - name: Authorization
-          in: header
-          description: User token
-          required: true
-          type: string
+        - name: body
+          in: body
+          description: Department info
+          type: object
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+          example:
+            name: "HR"
+            description: "Human resources"
+      security:
+        - JWT: []
+        
       responses:
         200: 
           description: Success
-          schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-              description:
-                type: string
-              employees: 
-              # Employess is array and includes users id
-                type: array
-                items:
-                  type: string
-
         400:
           description: Bad request
+        401:
+          description: Unauthorized
+        500:
+          description: Internal server error
     delete:
       summary: Delete department by id
       description: Delete department by id
@@ -669,29 +668,17 @@ paths:
           description: Department id
           required: true
           type: string
-
-        - name: Authorization
-          in: header
-          description: User token
-          required: true
-          type: string
+      security:
+        - JWT: []
       responses:
         200: 
           description: Success
-          schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-              description:
-                type: string
-              employees: 
-              # Employess is array and includes users id
-                type: array
-                items:
-                  type: string
+        400:
+          description: Bad request
+        401:
+          description: Unauthorized
+        500:
+          description: Internal server error
 
   /departments/search:
     get:
