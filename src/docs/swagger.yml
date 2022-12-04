@@ -8,10 +8,9 @@ info:
     email: "a.matyaqubov1471@gmail.com"
     url: "https://www.linkedin.com/in/azizmatyakubov/"
 
-host: "https://companyserver.onrender.com"
+host: "companyserver.onrender.com"
 basePath: /api/v1/
 schemes:
-  - http
   - https
 consumes:
   - application/json
