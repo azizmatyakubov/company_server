@@ -52,9 +52,6 @@ paths:
           description: "Not found"
         500:
           description: "Internal server error"
-
-
-    # auth register
   
   # auth register
   /auth/register:
@@ -62,16 +59,24 @@ paths:
       tags:
         - Auth
       summary: "Sign up"
-      description: "Login"
-      operationId: "login"
-      requestBody:
-        description: Optional description in *Markdown*
-        required: true
-        content:
-          text/plain:
-            schema:
-              type: string
-
+      description: "In this method you can sign up. You need to send name, surname, email and password in body. Except password all fields are required. If there is no password, app will use default password. Default password is 'password'"
+      operationId: "SignUp"
+      parameters:
+        - name: body
+          in: body
+          description: Login
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              surname:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
             
       responses:
         200:
@@ -93,13 +98,14 @@ paths:
       summary: "Refresh token"
       description: "Refresh token"
 
+
   # auth logout
   /auth/logout:
     get:
       tags:
         - Auth
       summary: "Logout"
-      description: "Logout"
+      description: "This method is used to logout. You need to send token in header. Token must be in format 'Bearer token'. "
 
   # auth get me
   /auth/me:
@@ -116,6 +122,22 @@ paths:
       tags:
         - Users
       summary: "Create user"
+      security:
+        - JWT: []
+      description: "Create user"
+      operationId: "createUser"
+      parameters:
+        - name: body
+          in: body
+          description: "Create user"
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string  
+              email:
+                type: string
     get:
       security:
         - JWT: []
