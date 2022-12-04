@@ -133,7 +133,7 @@ export const changeDepartment = async (req, res, next) => {
 
 export const uploadAvatar = async (req, res, next) => {
     try {
-        const foundUser = await Users.findById(req.user.id);
+        const foundUser = await Users.findById(req.params.id);
         if(!foundUser) return next(createHttpError(404, `User with id ${req.user.id} not found`));
 
         foundUser.img = req.file.path;
