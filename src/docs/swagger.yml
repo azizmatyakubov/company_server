@@ -1,16 +1,14 @@
 swagger: "2.0"
 info: 
-  title: Api yessss
-  description: Api yessss
+  title: REST API
+  description: This is a REST API for the application. It uses json web tokens for authentication. Refresh tokens are used to get new access tokens. 
   version: "1.0.0"
   contact:
     name: "Aziz Matyakubov"
     email: "a.matyaqubov1471@gmail.com"
-    url: "https://linkedin.com/in/aziz-matyakubov-1a1a6b1b3"
-  license:
-    name: "MIT"
-    url: "https://opensource.org/licenses/MIT"
-host: "localhost:5000"
+    url: "https://www.linkedin.com/in/azizmatyakubov/"
+
+host: "https://companyserver.onrender.com/"
 basePath: /api/v1/
 schemes:
   - http
@@ -41,6 +39,9 @@ paths:
                 type: string
               password:
                 type: string
+            example:
+              email: "test@gmail.com"
+              password: password
       responses:
         200:
           description: "Successful operation"
