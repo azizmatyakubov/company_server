@@ -32,14 +32,15 @@ export const getUserById = async (req, res, next) => {
 }
 
 export const updateUser = async (req, res, next) => {
+    // only able to update name, surname, email.
     try {
         const { id } = req.params;
+        const { name, surname, email }  = req.body;
         if (!mongoose.Types.ObjectId.isValid(id)) return next(createHttpError(400, `The id ${id} is not valid`));
     
-        const user = await Users.findByIdAndUpdate(id, req.body, { new: true });
+        const user = await Users.findByIdAndUpdate(id, { name, surname, email }, { new: true });
         if(!user) return next(createHttpError(404, `User with id ${id} not found`));
 
-        // send updated user
         res.status(200).json(user);
     } catch (error) {
         console.log(error);

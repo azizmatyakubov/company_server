@@ -226,7 +226,7 @@ paths:
           description: Bad request
     put:
       summary: Update user by id
-      description: Update user by id
+      description: This method is used to update user by id. You need to send access token in header and user id in url. Role of user must be admin or user must be owner of this user. You can update name, surname, email. 
       tags:
         - Users
       parameters:
