@@ -350,7 +350,7 @@ paths:
           required: true
           type: string
 
-  /users/{id}/role:
+  /users/role/{role}:
     put:
       summary: Update user role by id
       description: This method is used to update user role by id. You need to send access token in header and user id in url. Role of user must be admin. 
@@ -411,6 +411,72 @@ paths:
         400:
           description: Bad request
 
+  /users/department/{id}:
+    put:
+      summary: Change department of user
+      description: This method is used to change department of user. You need to send access token in header, user id in url and department name in body. Role of user must be admin. Departments ["HR", "Marketing", "Sales"]
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          description: User id
+          required: true
+          type: string  
+
+        - name: body
+          in: body
+          description: Department name
+          type: object
+          properties:
+            department:
+              type: string
+          example:
+            department: "HR"
+
+      security:
+        - JWT: []
+        
+      responses:
+        200: 
+          description: Success
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id: 
+                  type: integer
+                name:
+                  type: string
+                surname:
+                  type: string
+                email:
+                  type: string
+                img: 
+                  type: string
+                role:
+                  type: string
+                position:
+                  type: string
+                department:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    description:
+                      type: string
+                    employees: 
+                    # Employess is array and includes users id
+                      type: array
+                      items:
+                        type: string
+
+        400:
+          description: Bad request
+
   /users/countUsers:
     get:
       summary: countUsers 
@@ -453,7 +519,7 @@ paths:
 
       security:
         - JWT: []
-           
+
 
       responses:  
         200: 
@@ -465,23 +531,24 @@ paths:
         500:
           description: Internal server error
 
-  /users/downlaodCSV:
+  /users/csv:
     get:
       summary: Download CSV
-      description: Download CSV
+      description: This method is used to download CSV file. You need to send access token in header. Only admin can download CSV file.
       tags:
         - Users
-      parameters:
-        - name: Authorization
-          in: header
-          description: User token
-          required: true
-          type: string
+      security:
+        - JWT: []
+
       responses:
         200: 
           description: Success
         400:
           description: Bad request
+        401:
+          description: Unauthorized
+        500:
+          description: Internal server error
 
   ### departments
   /departments:
@@ -489,6 +556,7 @@ paths:
       tags:
         - Departments
       summary: "Create department"
+      description: "This method is used to create department. You need to send access token in header and department name in body. Role of user must be admin."
 
     get: 
       tags:

@@ -13,6 +13,11 @@ const usersValidator = {
             role: Joi.string().required(),
         }),
     },
+    changeDepartment : {
+        body: Joi.object({
+            department: Joi.string().required(),
+        }),
+    },
 };
 
 export default usersValidator;

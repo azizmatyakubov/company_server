@@ -97,36 +97,37 @@ export const countUsers = async (req, res, next) => {
 }
 
 export const changeDepartment = async (req, res, next) => {
+    const { error } = usersValidator.changeDepartment.body.validate(req.body);
+    if(error) return next(createHttpError(400, error.details[0].message));
     try {
-        const { departmentName, userId } = req.query;
-        if (!mongoose.Types.ObjectId.isValid(userId)) return next(createHttpError(400, `The id ${userId} is not valid`));
+        const { id } = req.params;
+        const { department } = req.body;
+        if (!mongoose.Types.ObjectId.isValid(id)) return next(createHttpError(400, `The id ${id} is not valid`));
 
-        const department = await Departments.findOne({ name: departmentName });
-        if(!department) return next(createHttpError(404, `${departmentName} department not found`));
+        const foundDepartment = await Departments.findOne({ name: department });
+        if(!foundDepartment) return next(createHttpError(404, `${department} department not found`));
 
-        const user = await Users.findById(userId);
-        if(!user) return next(createHttpError(404, `Employee with id ${userId} not found`));
+        const user = await Users.findById(id);
+        if(!user) return next(createHttpError(404, `Employee with id ${id} not found`));
 
         // remove user from previous department
-        const previousDepartment = await Departments.findOne({ employees: userId });
-        if(previousDepartment) {
-            previousDepartment.employees = previousDepartment.employees.filter(employee => employee != userId);
-            await previousDepartment.save();
-        }
+        const previousDepartment = await Departments.findOne({ employees: id });
+        if(!previousDepartment)  return next(createHttpError(404, `Employee with id ${id} not found in any department`));
 
-        // add user to new department
-        department.employees.push(userId);
-        console.log(department._id)
+        previousDepartment.employees = previousDepartment.employees.filter(employee => employee != id);
+
+        foundDepartment.employees.push(id);
         user.department = department._id;
+
         await user.save();
-        await department.save();
+        await foundDepartment.save();
+        await previousDepartment.save();
 
         // send message
-        res.status(200).send({ message: `Employee ${user.name} has been moved to ${department.name} department` });
+        res.status(200).send({ message: `Employee ${user.name} has been moved to ${foundDepartment.name} department` });
         
-
-
     } catch (error) {
+        console.log(error);
         next(error);
     }
 }
