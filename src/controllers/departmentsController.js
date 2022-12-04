@@ -45,12 +45,13 @@ export const getDepartmentById = async (req, res, next) => {
 export const getAllDepartmentByName = async (req, res, next) => {
     try {
         const { name } = req.query;
-        const departments = await Departments.find({ name: { $regex: name, $options: 'i' } });
+        const department = await Departments.findOne({ name });
 
-        if(departments.length === 0) return next(createHttpError(404, `Department with name ${name} not found`));
+        if(!department) return next(createHttpError(404, `Department with name ${name} not found`));
 
-        res.send(departments);
+        res.send(department);
     } catch (error) {
+        console.log(error);
         next(error);
     }
 }

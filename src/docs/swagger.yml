@@ -223,44 +223,17 @@ paths:
               type: string        
       security:
         - JWT: []
-
       responses:
         200: 
           description: Success
-          schema:
-            type: object
-            properties:
-              id: 
-                type: integer
-              name:
-                type: string
-              surname:
-                type: string
-              email:
-                type: string
-              img: 
-                type: string
-              role:
-                type: string
-              position:
-                type: string
-              department:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-                  description:
-                    type: string
-                  employees: 
-                  # Employess is array and includes users id
-                    type: array
-                    items:
-                      type: string
-
         400:
-          description: Bad request
+          description: "Invalid input"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Not found"
+        500:
+          description: "Internal server error"
     delete:
       summary: Delete user by id
       description: This method is used to delete user by id. You need to send access token in header and user id in url. Role of user must be admin.
@@ -278,40 +251,14 @@ paths:
       responses:
         200: 
           description: Success
-          schema:
-            type: object
-            properties:
-              id: 
-                type: integer
-              name:
-                type: string
-              surname:
-                type: string
-              email:
-                type: string
-              img: 
-                type: string
-              role:
-                type: string
-              position:
-                type: string
-              department:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-                  description:
-                    type: string
-                  employees: 
-                  # Employess is array and includes users id
-                    type: array
-                    items:
-                      type: string
-
         400:
-          description: Bad request
+          description: "Invalid input"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Not found"
+        500:
+          description: "Internal server error"
     
       summary: countUsers 
       description: countUsers
@@ -609,31 +556,18 @@ paths:
           required: true
           type: string
 
-        - name: Authorization
-          in: header
-          description: User token
-          required: true
-          type: string
+      security:
+        - JWT: []
+ 
       responses:
         200: 
           description: Success
-          schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-              description:
-                type: string
-              employees: 
-              # Employess is array and includes users id
-                type: array
-                items:
-                  type: string
-
         400:
           description: Bad request
+        401:
+          description: Unauthorized
+        500:
+          description: Internal server error
 
 # JWT token
 securityDefinitions:

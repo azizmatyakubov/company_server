@@ -81,6 +81,8 @@ export const deleteUser = async (req, res, next) => {
         const user = await Users.findByIdAndDelete(id);
         if(!user) return next(createHttpError(404, `User with id ${id} not found`));
 
+        await Departments.updateOne({ _id: user.department }, { $pull: { users: user._id } });
+    
         res.status(204).send();
     } catch (error) {
         next(error);
