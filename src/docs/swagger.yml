@@ -234,13 +234,22 @@ paths:
           in: path
           description: User id
           required: true
-          type: string
+          type: string  
 
-        - name: Authorization
-          in: header
-          description: User token
-          required: true
-          type: string
+        - name: body
+          in: body
+          description: User info
+          type: object
+          properties:
+            name:
+              type: string
+            surname:
+              type: string
+            email:
+              type: string        
+      security:
+        - JWT: []
+
       responses:
         200: 
           description: Success
