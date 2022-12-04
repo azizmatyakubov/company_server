@@ -149,28 +149,7 @@ paths:
 
 
   ### users
-
   /users:
-    post:
-      tags:
-        - Users
-      summary: "Create user"
-      security:
-        - JWT: []
-      description: "Create user"
-      operationId: "createUser"
-      parameters:
-        - name: body
-          in: body
-          description: "Create user"
-          required: true
-          schema:
-            type: object
-            properties:
-              name:
-                type: string  
-              email:
-                type: string
     get:
       security:
         - JWT: []
@@ -195,7 +174,7 @@ paths:
   /users/{id}:
     get:
       summary: Get user by id
-      description: Get user by id
+      description: This method is used to get user by id. You need to send access token in header and user id in url. Role of user must be admin or user must be owner of this user. If user is not owner of this user, app will return 403 status code
       tags:
         - Users
       parameters:
@@ -205,11 +184,9 @@ paths:
           required: true
           type: string
 
-        - name: Authorization
-          in: header
-          description: User token
-          required: true
-          type: string
+      security:
+        - JWT: []
+        
       responses:
         200: 
           description: Success
