@@ -414,15 +414,11 @@ paths:
   /users/countUsers:
     get:
       summary: countUsers 
-      description: countUsers
+      description: This method is used to count users. You need to send access token in header.
       tags:
         - Users
-      parameters:
-        - name: Authorization
-          in: header
-          description: User token
-          required: true
-          type: string
+      security:
+        - JWT: []
       responses:
         200: 
           description: Success
