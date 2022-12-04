@@ -52,6 +52,27 @@ export const updateUser = async (req, res, next) => {
     }
 }
 
+export const updateUserRole = async (req, res, next) => {
+    const { error } = usersValidator.updateUserRole.body.validate(req.body);
+    if(error) return next(createHttpError(400, error.details[0].message));
+
+    try {
+        const { id } = req.params;
+        const { role } = req.body;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) return next(createHttpError(400, `The id ${id} is not valid`));
+        if (!role) return next(createHttpError(400, `The role is required`));
+        const user = await Users.findByIdAndUpdate(id, { role },
+            { new: true });
+        if(!user) return next(createHttpError(404, `User with id ${id} not found`));
+
+        res.status(200).json(user);
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+}
+
 export const deleteUser = async (req, res, next) => {
     try {
         const { id } = req.params;

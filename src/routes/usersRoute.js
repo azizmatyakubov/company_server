@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllUsers, getUserById, updateUser, deleteUser, countUsers, changeDepartment, uploadAvatar, downloadCsv  } from '../controllers/usersController.js';
+import { getAllUsers, getUserById, updateUser, deleteUser, countUsers, changeDepartment, uploadAvatar, downloadCsv, updateUserRole  } from '../controllers/usersController.js';
 import AuthMiddleware from '../middlewares/AuthMiddleware.js';
 import { adminOrOwner, role } from '../middlewares/RoleMiddleware.js';
 import { cloudinaryUploader } from '../middlewares/CloudinaryMiddleware.js';
@@ -11,6 +11,7 @@ usersRouter.put('/changeDepartment',AuthMiddleware, role(['admin']), changeDepar
 usersRouter.get('/countUsers', AuthMiddleware, countUsers )
 usersRouter.get('/csv', AuthMiddleware, role(['admin']), downloadCsv)
 usersRouter.get('/:id', AuthMiddleware, adminOrOwner, getUserById )
+usersRouter.put('/:id/role', AuthMiddleware, role(['admin']), updateUserRole)
 usersRouter.put('/:id', AuthMiddleware, adminOrOwner, updateUser )
 usersRouter.delete('/:id', AuthMiddleware, adminOrOwner, deleteUser )
 usersRouter.post('/uploadAvatar', AuthMiddleware, role(['user']), cloudinaryUploader, uploadAvatar )

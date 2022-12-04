@@ -8,6 +8,11 @@ const usersValidator = {
             email: Joi.string().email().optional(),
         }),
     },
+    updateUserRole : {
+        body: Joi.object({
+            role: Joi.string().required(),
+        }),
+    },
 };
 
 export default usersValidator;

@@ -353,6 +353,67 @@ paths:
           required: true
           type: string
 
+  /users/{id}/role:
+    put:
+      summary: Update user role by id
+      description: This method is used to update user role by id. You need to send access token in header and user id in url. Role of user must be admin. 
+      tags:
+        - Users
+      parameters:
+        - name: id
+          in: path
+          description: User id
+          required: true
+          type: string  
+
+        - name: body
+          in: body
+          description: User info
+          type: object
+          properties:
+            role:
+              type: string
+      security:
+        - JWT: []
+
+      responses:
+        200: 
+          description: Success
+          schema:
+            type: object
+            properties:
+              id: 
+                type: integer
+              name:
+                type: string
+              surname:
+                type: string
+              email:
+                type: string
+              img: 
+                type: string
+              role:
+                type: string
+              position:
+                type: string
+              department:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  employees: 
+                  # Employess is array and includes users id
+                    type: array
+                    items:
+                      type: string
+
+        400:
+          description: Bad request
+
   /users/countUsers:
     get:
       summary: countUsers 
