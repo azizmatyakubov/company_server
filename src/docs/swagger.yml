@@ -188,42 +188,16 @@ paths:
         - JWT: []
         
       responses:
-        200: 
-          description: Success
-          schema:
-            type: object
-            properties:
-              id: 
-                type: integer
-              name:
-                type: string
-              surname:
-                type: string
-              email:
-                type: string
-              img: 
-                type: string
-              role:
-                type: string
-              position:
-                type: string
-              department:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-                  description:
-                    type: string
-                  employees: 
-                  # Employess is array and includes users id
-                    type: array
-                    items:
-                      type: string
-
+        200:
+          description: "Successful operation"
         400:
-          description: Bad request
+          description: "Invalid input"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Not found"
+        500:
+          description: "Internal server error"
     put:
       summary: Update user by id
       description: This method is used to update user by id. You need to send access token in header and user id in url. Role of user must be admin or user must be owner of this user. You can update name, surname, email. 
