@@ -601,7 +601,7 @@ paths:
   /departments/{id}:
     get:
       summary: Get department by id
-      description: Get department by id
+      description: This method is used to get department by id. You need to send access token in header. Role of user must be admin or user.
       tags:
         - Departments
       parameters:
@@ -610,32 +610,17 @@ paths:
           description: Department id
           required: true
           type: string
-
-        - name: Authorization
-          in: header
-          description: User token
-          required: true
-          type: string
+      security:
+        - JWT: []
       responses:
         200: 
           description: Success
-          schema:
-            type: object
-            properties:
-              id:
-                type: integer
-              name:
-                type: string
-              description:
-                type: string
-              employees: 
-              # Employess is array and includes users id
-                type: array
-                items:
-                  type: string
-
         400:
           description: Bad request
+        401:
+          description: Unauthorized
+        500:
+          description: Internal server error
     put:
       summary: Update department by id
       description: Update department by id
