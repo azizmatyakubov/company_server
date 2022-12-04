@@ -7,12 +7,12 @@ import { cloudinaryUploader } from '../middlewares/CloudinaryMiddleware.js';
 const usersRouter = express.Router();
 
 usersRouter.get('/', AuthMiddleware, getAllUsers )
-usersRouter.put('/changeDepartment',AuthMiddleware, changeDepartment)
+usersRouter.put('/changeDepartment',AuthMiddleware, role(['admin']), changeDepartment)
 usersRouter.get('/countUsers', AuthMiddleware, countUsers )
 usersRouter.get('/csv', AuthMiddleware, role(['admin']), downloadCsv)
 usersRouter.get('/:id', AuthMiddleware, adminOrOwner, getUserById )
-usersRouter.put('/:id', AuthMiddleware, role(['admin']), updateUser )
-usersRouter.delete('/:id', AuthMiddleware, role(['admin']), deleteUser )
-usersRouter.post('/uploadAvatar', AuthMiddleware, cloudinaryUploader, uploadAvatar )
+usersRouter.put('/:id', AuthMiddleware, adminOrOwner, updateUser )
+usersRouter.delete('/:id', AuthMiddleware, adminOrOwner, deleteUser )
+usersRouter.post('/uploadAvatar', AuthMiddleware, role(['user']), cloudinaryUploader, uploadAvatar )
 
 export default usersRouter;
