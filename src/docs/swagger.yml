@@ -585,6 +585,18 @@ paths:
       tags:
         - Departments
       summary: "Get all departments"
+      description: "This method is used to get all departments. You need to send access token in header. Role of user must be admin or user."
+      security:
+        - JWT: []
+      responses:
+        200: 
+          description: Success
+        400:
+          description: Bad request
+        401:
+          description: Unauthorized
+        500:
+          description: Internal server error
 
   /departments/{id}:
     get:
