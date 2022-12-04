@@ -3,6 +3,7 @@ import Users from '../models/UsersModel.js';
 import Departments from '../models/DepartmentsModel.js';
 import createHttpError from 'http-errors';
 import pkg from 'json2csv';
+import usersValidator from '../validators/usersValidator.js';
 const { Parser } = pkg;
 
 
@@ -32,7 +33,10 @@ export const getUserById = async (req, res, next) => {
 }
 
 export const updateUser = async (req, res, next) => {
-    // only able to update name, surname, email.
+    // only name, surname, email can be updated
+    const { error } = usersValidator.updateUser.body.validate(req.body);
+    if(error) return next(createHttpError(400, error.details[0].message));
+
     try {
         const { id } = req.params;
         const { name, surname, email }  = req.body;
