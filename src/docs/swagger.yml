@@ -289,7 +289,7 @@ paths:
           description: Bad request
     delete:
       summary: Delete user by id
-      description: Delete user by id
+      description: This method is used to delete user by id. You need to send access token in header and user id in url. Role of user must be admin.
       tags:
         - Users
       parameters:
@@ -299,11 +299,8 @@ paths:
           required: true
           type: string
 
-        - name: Authorization
-          in: header
-          description: User token
-          required: true
-          type: string
+      security:
+        - JWT: []
       responses:
         200: 
           description: Success

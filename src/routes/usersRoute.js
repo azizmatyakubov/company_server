@@ -13,7 +13,7 @@ usersRouter.get('/csv', AuthMiddleware, role(['admin']), downloadCsv)
 usersRouter.get('/:id', AuthMiddleware, adminOrOwner, getUserById )
 usersRouter.put('/:id/role', AuthMiddleware, role(['admin']), updateUserRole)
 usersRouter.put('/:id', AuthMiddleware, adminOrOwner, updateUser )
-usersRouter.delete('/:id', AuthMiddleware, adminOrOwner, deleteUser )
+usersRouter.delete('/:id', AuthMiddleware, role(['admin']), deleteUser )
 usersRouter.post('/uploadAvatar', AuthMiddleware, role(['user']), cloudinaryUploader, uploadAvatar )
 
 export default usersRouter;
