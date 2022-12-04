@@ -105,7 +105,25 @@ paths:
       tags:
         - Auth
       summary: "Logout"
-      description: "This method is used to logout. You need to send token in header. Token must be in format 'Bearer token'. "
+      description: "This method is used to logout. You need to send refresh token in cookie. You will get 200 status code. After that, refresh token will be deleted from database"
+      operationId: "Logout"
+      parameters:
+        - name: cookie
+          in: cookie
+          description: "Refresh token"
+          required: true
+          type: string
+      responses:
+        200:
+          description: "Successful operation"
+        400:
+          description: "Invalid input"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Not found"
+        500:
+          description: "Internal server error"
 
   # auth get me
   /auth/me:
@@ -113,7 +131,22 @@ paths:
       tags:
         - Auth
       summary: "Get me"
-      description: "Get me"
+      description: "This method is used to get user info. You need to send access token in header. App will decode access token and get user id. After that, app will get user info from database"
+      operationId: "GetMe"
+      security:
+        - JWT: []
+      responses:
+        200:
+          description: "Successful operation"
+        400:
+          description: "Invalid input"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Not found"
+        500:
+          description: "Internal server error"
+
 
   ### users
 
