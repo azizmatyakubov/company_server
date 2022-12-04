@@ -174,13 +174,13 @@ paths:
   /users/{id}:
     get:
       summary: Get user by id
-      description: This method is used to get user by id. You need to send access token in header and user id in url. Role of user must be admin or user must be owner of this user. If user is not owner of this user, app will return 403 status code
+      description: This method is used to get user by id. You need to send access token in header and user id in url. Role of user must be admin or user must be owner of this user. 
       tags:
         - Users
       parameters:
         - name: id
           in: path
-          description: User id
+          description: User id that you want to get
           required: true
           type: string
 
