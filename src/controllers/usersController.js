@@ -119,7 +119,7 @@ export const changeDepartment = async (req, res, next) => {
         previousDepartment.employees = previousDepartment.employees.filter(employee => employee != id);
 
         foundDepartment.employees.push(id);
-        user.department = department._id;
+        user.department = foundDepartment._id;
 
         await user.save();
         await foundDepartment.save();
