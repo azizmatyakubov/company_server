@@ -113,17 +113,18 @@ export const changeDepartment = async (req, res, next) => {
         if(!user) return next(createHttpError(404, `Employee with id ${id} not found`));
 
         // remove user from previous department
-        const previousDepartment = await Departments.findOne({ employees: id });
-        if(!previousDepartment)  return next(createHttpError(404, `Employee with id ${id} not found in any department`));
-
-        previousDepartment.employees = previousDepartment.employees.filter(employee => employee != id);
+        if (user.department !== null) {
+            const previousDepartment = await Departments.findOne({ employees: id });
+            if(!previousDepartment)  return next(createHttpError(404, `Employee with id ${id} not found in any department`));
+            previousDepartment.employees = previousDepartment.employees.filter(employee => employee != id);
+            await previousDepartment.save();
+        }
 
         foundDepartment.employees.push(id);
         user.department = foundDepartment._id;
 
         await user.save();
         await foundDepartment.save();
-        await previousDepartment.save();
 
         // send message
         res.status(200).send({ message: `Employee ${user.name} has been moved to ${foundDepartment.name} department` });
